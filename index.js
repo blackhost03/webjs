@@ -1,3 +1,5 @@
+const { Client } = require('pg');
+
 async function connectToDatabase() {
   const client = new Client({
     user: 'rizz',
