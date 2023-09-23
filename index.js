@@ -6,22 +6,22 @@ const client = new Client({
   database: 'scvpn',
   password: 'lrbWWYHu9ObB8xlmth5DUqiURKzvImHi',
   port: 5432,
+  timeout: 10000, // 10 seconds
 });
 
 client.connect();
 
-client.query('SELECT * FROM data_table', (err, result) => {
-  if (err) {
-    console.error('Koneksi database gagal:', err);
+try {
+  const result = await client.query('SELECT * FROM data_table');
+  const rows = result.rows;
+
+  if (rows.length > 0) {
+    console.log(rows.map((row) => `### ${row.tag} ${row.date_exp} ${row.ip_address} ON ${row.upline}`).join('\n'));
   } else {
-    const rows = result.rows;
-    if (rows.length > 0) {
-      rows.forEach((row) => {
-        console.log(`### ${row.tag} ${row.date_exp} ${row.ip_address} ON ${row.upline}`);
-      });
-    } else {
-      console.log('Tidak ada data ditemukan.');
-    }
-    client.end();
+    console.log('Tidak ada data ditemukan.');
   }
-});
+} catch (err) {
+  console.error('Koneksi database gagal:', err);
+} finally {
+  client.end();
+}
