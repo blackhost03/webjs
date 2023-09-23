@@ -48,7 +48,7 @@ app.get("/", async (req, res) => {
 
     const response = [];
     for (const row of rows) {
-      response.push(`### ${row.tag} ${row.dateExp} ${row.ipAddress} ON ${row.upline}`);
+      response.push(`### ${row.tag} ${row.dateExp} ${row.ipAddress} ON ${row.upline} <br />`);
     }
     res.send(response.join('\n'));
   } else {
