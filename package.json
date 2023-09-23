@@ -1,0 +1,12 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "A Node.js app to connect to PostgreSQL database and print the data",
+  "main": "index.js",
+  "dependencies": {
+    "pg": "^8.7.2"
+  },
+  "scripts": {
+    "start": "node index.js && echo 'Aplikasi Node.js Anda telah berjalan!'"
+  }
+}
