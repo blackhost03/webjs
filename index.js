@@ -1,35 +1,49 @@
-const { Client } = require('pg');
+const { Client } = require("pg");
+const express = require("express");
 
-async function connectToDatabase() {
-  const client = new Client({
-    user: 'rizz',
-    host: 'ck6kv31i0euc73dad81g-a.singapore-postgres.render.com',
-    database: 'scvpn',
-    password: 'lrbWWYHu9ObB8xlmth5DUqiURKzvImHi',
-    port: 5432,
-    ssl: true,
-    timeout: 10000, // 10 seconds
-  });
+const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Ganti dengan alamat host PostgreSQL Anda
+const port = "5432"; // Port default PostgreSQL
+const username = "rizz"; // Ganti dengan username PostgreSQL Anda
+const password = "lrbWWYHu9ObB8xlmth5DUqiURKzvImHi"; // Ganti dengan password PostgreSQL Anda
+const database = "scvpn"; // Ganti dengan nama database PostgreSQL Anda
 
-  await client.connect();
+const client = new Client({
+  host,
+  port,
+  user: username,
+  password,
+  database,
+});
 
-  return client;
-}
+client.connect();
 
-async function main() {
-  const client = await connectToDatabase();
+const app = express();
 
-  const result = await client.query('SELECT * FROM data_table');
+app.get("/", async (req, res) => {
+  const query = `SELECT * FROM data_table`;
+  const result = await client.query(query);
 
-  const rows = result.rows;
+  if (result.rowCount > 0) {
+    const rows = [];
+    for await (const row of result) {
+      rows.push({
+        tag: row.tag,
+        dateExp: row.date_exp,
+        ipAddress: row.ip_address,
+        upline: row.upline,
+      });
+    }
 
-  if (rows.length > 0) {
-    console.log(rows.map((row) => `### ${row.tag} ${row.date_exp} ${row.ip_address} ON ${row.upline}`).join('\n'));
+    const response = [];
+    for (const row of rows) {
+      response.push(`### ${row.tag} ${row.dateExp} ${row.ipAddress} ON ${row.upline}`);
+    }
+    res.send(response.join('\n'));
   } else {
-    console.log('Tidak ada data ditemukan.');
+    res.status(404).json({ message: "Tidak ada data ditemukan." });
   }
+});
 
-  client.end();
-}
-
-main();
+app.listen(80, () => {
+  console.log("Server is listening on port 80");
+});
