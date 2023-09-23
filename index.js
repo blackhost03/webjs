@@ -1,11 +1,11 @@
 const { Client } = require("pg");
 const express = require("express");
 const port = process.env.PORT || 3001;
-const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Sesuaikan dengan alamat host PostgreSQL Anda
+const host = "satao.db.elephantsql.com"; // Sesuaikan dengan alamat host PostgreSQL Anda
 const portdb = 5432; // portdb default PostgreSQL
-const username = "rizz"; // Sesuaikan dengan username PostgreSQL Anda
-const password = "lrbWWYHu9ObB8xlmth5DUqiURKzvImHi"; // Sesuaikan dengan password PostgreSQL Anda
-const database = "scvpn"; // Sesuaikan dengan nama database PostgreSQL Anda
+const username = "iygeabtt"; // Sesuaikan dengan username PostgreSQL Anda
+const password = "FfM_e8SSwNDXjUs_4OYGyrS4ApghMlHc"; // Sesuaikan dengan password PostgreSQL Anda
+const database = "iygeabtt"; // Sesuaikan dengan nama database PostgreSQL Anda
 
 const client = new Client({
   host,
