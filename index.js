@@ -1,7 +1,6 @@
 const { Client } = require("pg");
 const express = require("express");
 const port = process.env.PORT || 3001;
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Sesuaikan dengan alamat host PostgreSQL Anda
 const portdb = 5432; // portdb default PostgreSQL
 const username = "rizz"; // Sesuaikan dengan username PostgreSQL Anda
@@ -20,6 +19,9 @@ const client = new Client({
 client.connect();
 
 const app = express();
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+server.keepAliveTimeout = 120 * 1000;
+server.headersTimeout = 120 * 1000;
 
 // Mendefinisikan fungsi untuk mengubah format tanggal
 function formatDate(date) {
@@ -53,6 +55,3 @@ app.get("/", async (req, res) => {
     res.status(404).json({ message: "Tidak ada data ditemukan." });
   }
 });
-
-server.keepAliveTimeout = 120 * 1000;
-server.headersTimeout = 120 * 1000;
