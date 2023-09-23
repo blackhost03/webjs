@@ -1,23 +1,32 @@
 const { Client } = require("pg");
 const express = require("express");
 
-const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Ganti dengan alamat host PostgreSQL Anda
-const port = "5432"; // Port default PostgreSQL
-const username = "rizz"; // Ganti dengan username PostgreSQL Anda
-const password = "lrbWWYHu9ObB8xlmth5DUqiURKzvImHi"; // Ganti dengan password PostgreSQL Anda
-const database = "scvpn"; // Ganti dengan nama database PostgreSQL Anda
+const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Sesuaikan dengan alamat host PostgreSQL Anda
+const portdb = 5432; // portdb default PostgreSQL
+const username = "rizz"; // Sesuaikan dengan username PostgreSQL Anda
+const password = "lrbWWYHu9ObB8xlmth5DUqiURKzvImHi"; // Sesuaikan dengan password PostgreSQL Anda
+const database = "scvpn"; // Sesuaikan dengan nama database PostgreSQL Anda
 
 const client = new Client({
   host,
-  port,
+  portdb,
   user: username,
   password,
   database,
+  ssl: true,
 });
 
 client.connect();
 
 const app = express();
+
+// Mendefinisikan fungsi untuk mengubah format tanggal
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Menggunakan String() dan padStart() untuk memastikan dua digit pada bulan
+  const day = String(date.getDate()).padStart(2, '0'); // Menggunakan String() dan padStart() untuk memastikan dua digit pada tanggal
+  return `${year}-${month}-${day}`;
+}
 
 app.get("/", async (req, res) => {
   const query = `SELECT * FROM data_table`;
@@ -25,10 +34,10 @@ app.get("/", async (req, res) => {
 
   if (result.rowCount > 0) {
     const rows = [];
-    for await (const row of result) {
+    for await (const row of result.rows) {
       rows.push({
         tag: row.tag,
-        dateExp: row.date_exp,
+        dateExp: formatDate(row.date_exp), // Menggunakan formatDate untuk mengubah format tanggal
         ipAddress: row.ip_address,
         upline: row.upline,
       });
@@ -44,6 +53,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-// app.listen(8080, () => {
-//   console.log("Server is listening on port 8080");
-// });
+const port = process.env.PORT || 80; // Sesuaikan dengan port yang sesuai
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
