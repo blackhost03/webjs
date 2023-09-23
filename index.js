@@ -1,5 +1,7 @@
 const { Client } = require("pg");
 const express = require("express");
+const port = process.env.PORT || 3001;
+console.log(`Server is listening on port ${port}`);
 
 const host = "ck6kv31i0euc73dad81g-a.singapore-postgres.render.com"; // Sesuaikan dengan alamat host PostgreSQL Anda
 const portdb = 5432; // portdb default PostgreSQL
@@ -51,9 +53,4 @@ app.get("/", async (req, res) => {
   } else {
     res.status(404).json({ message: "Tidak ada data ditemukan." });
   }
-});
-
-const port = process.env.PORT || 80; // Sesuaikan dengan port yang sesuai
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
 });
