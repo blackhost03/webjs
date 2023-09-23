@@ -7,6 +7,7 @@ async function connectToDatabase() {
     database: 'scvpn',
     password: 'lrbWWYHu9ObB8xlmth5DUqiURKzvImHi',
     port: 5432,
+    ssl: true,
     timeout: 10000, // 10 seconds
   });
 
