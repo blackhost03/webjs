@@ -5,7 +5,7 @@ const host = process.env.HOST;
 const portdb = process.env.PORTDB;
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
-const databse = process.env.DATABASE;
+const database = process.env.DATABASE;
 
 const client = new Client({
   host,
