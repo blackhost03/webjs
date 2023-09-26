@@ -2,9 +2,5 @@ version: "3.9"
 
 services:
   nodejs-web-app:
-    image: nodejs-web-app:latest
+    image: node:18
     build: .
-    ports:
-      - "3000:3000"
-      - "80:80"
-      - "443:443"
