@@ -1,7 +1,0 @@
-name: nodejs-web-app
-build:
-  image: okteto/node:18
-  context: .
-  command: npm install
-deploy:
-  command: npm start
